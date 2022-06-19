@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- I built this html page upon another html template designed by Emad Mahouti -->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-print-css/css/bootstrap-print.min.css"
+        media="print">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="print">
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+
+    <style>
+        body {
+            background-color: #F5F0F0;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+
+        /*body {*/
+        /*    height: 842px;*/
+        /*    width: 595px;*/
+        /*    !* to centre page on screen*!*/
+        /*    margin-left: auto;*/
+        /*    margin-right: auto;*/
+        /*}*/
+
+        /*@media print {*/
+        /*    .col-print-1 {width:8%;  float:left;}*/
+        /*    .col-print-2 {width:16%; float:left;}*/
+        /*    .col-print-3 {width:25%; float:left;}*/
+        /*    .col-print-4 {width:33%; float:left;}*/
+        /*    .col-print-5 {width:42%; float:left;}*/
+        /*    .col-print-6 {width:50%; float:left;}*/
+        /*    .col-print-7 {width:58%; float:left;}*/
+        /*    .col-print-8 {width:66%; float:left;}*/
+        /*    .col-print-9 {width:75%; float:left;}*/
+        /*    .col-print-10{width:83%; float:left;}*/
+        /*    .col-print-11{width:92%; float:left;}*/
+        /*    .col-print-12{width:100%; float:left;}*/
+        /*}*/
+
+        a:hover {
+            color: #6b70d4 !important;
+        }
+
+        .box {
+            border-radius: 8px;
+            background-color: #FFFFFF;
+            padding: 0.5rem 1rem;
+            box-shadow: #FFFFFF 2px 2px 2px;
+        }
+
+        .title {
+            font-weight: bold;
+            display: block;
+            color: black !important;
+        }
+
+        .box>.title {
+            font-size: 19px;
+            margin-bottom: 0.5rem;
+        }
+
+        .box .sub-box,
+        .box .info-box {
+            margin-top: 0.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .box span,
+        a {
+            color: #2C2E56;
+        }
+
+        .footer {
+            font-size: 12px;
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .sub-box.border {
+            border-bottom: 0 !important;
+            border-top: 0 !important;
+            border-right: 0 !important;
+            border-left: #e7e7e7 solid 2px !important;
+        }
+
+        .sub-box ul {
+            color: #807f7f;
+        }
+
+        .sub-box .title {
+            font-size: 15px;
+        }
+
+        .box>span,
+        .sub-box span,
+        .sub-box ul {
+            font-size: 13px;
+        }
+
+        .sub-box .site {
+            font-size: 12px;
+        }
+
+        .info-box span {
+            display: block;
+            font-size: 12px;
+        }
+
+        .info-box span:nth-child(3),
+        .info-box span:nth-child(2),
+        .single-line-body .date,
+        footer {
+            color: #807f7f !important;
+            font-weight: bolder;
+            font-size: 10px !important;
+        }
+
+        .single-line-body span:first-child {
+            font-weight: bold;
+            font-size: 12px;
+            color: black
+        }
+
+        .single-line-body span:nth-child(2) {
+            font-weight: normal;
+            color: black;
+            font-size: 12px;
+            margin-left: 0.3rem;
+        }
+
+        .single-line-body .date {
+            margin-left: 2rem;
+        }
+
+        .avatar {
+            border-radius: 250px;
+        }
+
+        .badge {
+            border: transparent solid 0 !important;
+        }
+
+        .badge.item {
+            background-color: #f3f3f3;
+            color: #2C2E56;
+            font-size: 13px;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            margin-right: 1rem;
+            margin-top: 0.4rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .item-sm {
+            font-size: 12px !important;
+            font-weight: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container-fluid" style="margin-top: 0.7rem">
+        <div class="row align-items-center">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <img class="avatar" :src="content.profile.thumbnail" alt="profile" width="130" height="130">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div v-if="content.profile.name != null">
+                    <h2>{$ content.profile.name $}</h2>
+                </div>
+                <div v-if="content.jobPosition != null">
+                    <h6>{$ content.jobPosition $}</h6>
+                </div>
+                <div class="mt-4">
+                    <a :href="item.link" v-for="item in content.profile.social">
+                        <span class="badge bg-body text-dark text-center" style="margin-right: 1rem">
+                            <img class="rounded" :src="item.icon" alt="" height="15" width="15">
+                            {$item.title$}
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-12" v-if="content.profile.research_area != null">
+                        <div class="box" style="text-align: justify">
+                            <span class="title">Research Area</span>
+                            <span class="indent">
+                                {$ content.profile.research_area $}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-12" :class="[i > 0, 'mt-3']" v-for="(key, value, i) in content.side">
+                        <div class="box">
+                            <span class="title">{$ key.title $}</span>
+                            <div v-for="item in key.values" class="sub-box mb-3">
+                                <span v-if="item.title != null" class="title">{$ item.title $}</span>
+                                <span v-if="item.note == null">{$ item.description $}</span>
+                                <span class="badge item" :class="{'item-sm': item.title != null}"
+                                    v-for="value in item.items">{$ value $}</span>
+                                <div v-if="item.note != null">
+                                    <div style="display: flex; justify-content: space-between">
+                                        <div class="single-line-body">
+                                            <span v-html="item.description"></span>
+                                            <span>{$ item.note $}</span>
+                                        </div>
+                                        <div class="single-line-body">
+                                            <span class="date" v-if="item.date != null">{$ item.date $}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="item.chart != null" style="height: 15rem !important;">
+                                    <canvas id="chart" style="margin: 0 auto"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 mt-3">
+                    <div class="box">
+                        <span class="title">
+                            Contact Me
+                        </span>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span>Phone: </span>
+                                {$ content.profile.phone $}
+                            </div>
+                            <div class="col-md-12 mt-1">
+                                <span>Email: </span>
+                                <a :href="'mailto:' + content.profile.email">{$ content.profile.email $}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 ">
+                <div class="row">
+                    <div class="col-md-12" v-for="(key, value, i) in content.body" :class="{'mt-3': i > 0}">
+                        <div class="box">
+                            <span class="title">
+                                {$ key.title $}
+                            </span>
+                            <div class="row" v-for="item in key.values">
+                                <div class="col-md-2 info-box">
+                                    <span>{$ item.date.formal $}</span>
+                                    <span>{$ item.date.start $}</span>
+                                    <span>{$ item.date.end $}</span>
+                                </div>
+                                <div class="col-md-10 sub-box border">
+                                    <span class="title">{$ item.title $}
+                                        <img v-if="item.icon != null" :src="item.icon" class="rounded"
+                                            style="float: left; margin-right: 6px" alt="box-ico" width="20" height="20">
+                                    </span>
+                                    <span style="display: block" class="site"><a :href="'https://' + item.site">{$
+                                            item.site$}</a></span>
+                                    <span v-html="item.description"></span>
+                                    <ul>
+                                        <li v-for="item in item.achievements" v-html="item"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section>
+            <div class="footer">
+                <span>{$ content.footer $}</span>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: "#app",
+            delimiters: ["{$", "$}"],
+            data: {
+                content: {}
+            },
+            created() {
+                this.content = data
+            }
+        })
+
+        const chart = {
+            labels: [
+                'PHP',
+                'Vue.js',
+                'HTML',
+                'Laravel',
+                'CSS',
+                'MongoDB',
+                'ORM Light'
+            ],
+            datasets: [{
+                label: 'Familiar',
+                data: [79, 40, 85, 25, 80, 15, 30],
+                fill: true,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgb(255, 99, 132)',
+                pointBackgroundColor: 'rgb(255, 99, 132)',
+                borderWidth: 1,
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(255, 99, 132)'
+            }]
+        }
+
+        const config = {
+            type: 'radar',
+            data: chart,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scale: {
+                    ticks: {
+                        display: false,
+                        maxTicksLimit: 3
+                    }
+                },
+                scales: {
+                    r: {
+                        ticks: {
+                            display: false
+                        }
+                    },
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        };
+        const myChart = new Chart(
+            document.getElementById('chart'),
+            config
+        );
+
+    </script>
+
+</body>
+
+</html>
